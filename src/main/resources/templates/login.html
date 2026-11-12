@@ -3,15 +3,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>E-Kutubxona - Tizimga kirish</title>
+    <title>E-Kutubxona - Ro'yxatdan o'tishni yakunlash</title>
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-950 text-white min-h-screen flex items-center justify-center">
 
     <div class="bg-gray-900 border border-gray-800 p-8 rounded-2xl shadow-2xl w-full max-w-md">
         <div class="text-center mb-6">
-            <h1 class="text-2xl font-bold text-amber-400">Tizimga kirish</h1>
-            <p class="text-gray-400 text-sm mt-1">Kitoblarni o'qish uchun hisobingizga kiring</p>
+            <h1 class="text-2xl font-bold text-amber-400">Ro'yxatdan o'tishni yakunlash</h1>
+            <p class="text-gray-400 text-sm mt-1">Ma'lumotlarni tasdiqlab asosiy ekranga o'ting</p>
         </div>
 
         <form th:action="@{/login}" method="POST" class="flex flex-col gap-4">
@@ -26,12 +26,12 @@
             </div>
 
             <button type="submit" class="w-full bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold py-3 rounded-xl transition shadow-lg shadow-amber-500/10 text-sm mt-2">
-                Kirish
+                Ro'yxatdan o'tishni yakunlash
             </button>
         </form>
 
         <div class="text-center mt-6 text-sm text-gray-400">
-            Hisobingiz yo'qmi? <a href="/register" class="text-amber-400 hover:underline font-medium">Ro'yxatdan o'tish</a>
+            Hisobingiz bormi? <a href="/login" class="text-amber-400 hover:underline font-medium">Tizimga kirish</a>
         </div>
     </div>
 
