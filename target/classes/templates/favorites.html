@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Kutubxona - Sevimli Kitoblar</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-white min-h-screen flex flex-col">
+
+    <!-- NAVBAR -->
+    <nav class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+        <!-- Logo va Havolalar -->
+        <div class="flex items-center gap-10">
+            <div class="flex items-center gap-3">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg shadow-amber-500/10">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <span class="text-2xl font-black text-amber-400 tracking-wide">E-Kutubxona</span>
+            </div>
+            
+            <!-- Sahifalar -->
+            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
+                <a href="/home" class="hover:text-amber-300 transition">Bosh sahifa</a>
+                <a href="/catalog" class="hover:text-amber-300 transition">Katalog</a>
+                <a href="/ebooks" class="hover:text-amber-300 transition">Elektron kitoblar</a>
+                <a href="/audio-books" class="hover:text-amber-300 transition">Audio kitoblar</a>
+                <a href="/favorites" class="text-amber-400 hover:text-amber-300 transition text-amber-400">Sevimlilar</a>
+            </div>
+        </div>
+
+        <!-- O'ng tarafdagi burger tugma -->
+        <div class="flex items-center">
+            <button onclick="toggleSidebar()" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-amber-400 transition" title="Menyu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT -->
+    <div class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
+        
+        <!-- HEADER SECTION -->
+        <div class="mb-10 text-center">
+            <div class="flex items-center justify-center gap-3 mb-2">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <svg class="w-4 h-4 fill-amber-400" viewBox="0 0 24 24">
+                        <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+                    </svg>
+                </div>
+                <h1 class="text-2xl md:text-3xl font-extrabold text-amber-400">Sevimli Kitoblarim</h1>
+            </div>
+            <p class="text-gray-400 max-w-lg mx-auto text-xs md:text-sm">O'zingizga yoqqan va saqlab qo'ygan kitoblar ro'yxati.</p>
+        </div>
+
+        <!-- FAVORITES GRID SECTION -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+            
+            <!-- Book Card 1: O'tkan kunlar -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg hover:border-amber-400/50 transition group flex flex-col justify-between">
+                <div>
+                    <a th:href="@{/book/O'tkan kunlar}" class="block h-60 bg-gray-800 overflow-hidden relative">
+                        <img src="https://images.pexels.com/photos/415071/pexels-photo-415071.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Book" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 right-3 bg-amber-500 text-gray-950 text-xs font-bold px-2.5 py-1 rounded-full">DRM Himoyalangan</span>
+                    </a>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 truncate text-white">O'tkan kunlar</h3>
+                        <p class="text-sm text-gray-400 mb-4">Abdulla Qodiriy</p>
+                    </div>
+                </div>
+
+                <div class="p-5 pt-0 flex gap-2">
+                    <a th:href="@{/book/O'tkan kunlar}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold py-2.5 rounded-xl text-sm transition text-center shadow-lg shadow-amber-500/10">O'qish</a>
+                    <button onclick="toggleFavorite(this)" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3.5 py-2.5 rounded-xl transition group/btn flex items-center justify-center" title="Sevimlilardan o'chirish">
+                        <svg class="w-5 h-5 text-amber-500 group-hover/btn:scale-110 transition duration-200" fill="#f59e0b" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Book Card 2: Mehrobdan Chayon -->
+            <div class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg hover:border-amber-400/50 transition group flex flex-col justify-between">
+                <div>
+                    <a th:href="@{/book/Mehrobdan Chayon}" class="block h-60 bg-gray-800 overflow-hidden relative">
+                        <img src="https://images.pexels.com/photos/1029141/pexels-photo-1029141.jpeg?auto=compress&cs=tinysrgb&w=600" alt="Book" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                        <span class="absolute top-3 right-3 bg-amber-500 text-gray-950 text-xs font-bold px-2.5 py-1 rounded-full">DRM Himoyalangan</span>
+                    </a>
+                    <div class="p-5">
+                        <h3 class="font-bold text-lg mb-1 truncate text-white">Mehrobdan Chayon</h3>
+                        <p class="text-sm text-gray-400 mb-4">Abdulla Qodiriy</p>
+                    </div>
+                </div>
+
+                <div class="p-5 pt-0 flex gap-2">
+                    <a th:href="@{/book/Mehrobdan Chayon}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold py-2.5 rounded-xl text-sm transition text-center shadow-lg shadow-amber-500/10">O'qish</a>
+                    <button onclick="toggleFavorite(this)" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3.5 py-2.5 rounded-xl transition group/btn flex items-center justify-center" title="Sevimlilardan o'chirish">
+                        <svg class="w-5 h-5 text-amber-500 group-hover/btn:scale-110 transition duration-200" fill="#f59e0b" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-gray-800 text-center py-6 text-gray-500 text-sm mt-16">
+        © 2026 E-Kutubxona. Barcha huquqlar himoyalangan.
+    </footer>
+
+    <!-- SIDEBAR (OCHILADIGAN MENYU) -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
+
+    <div id="sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-800 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Sidebar Header -->
+        <div class="p-6 border-b border-gray-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-amber-400">Menyu</span>
+            </div>
+            <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
+        </div>
+
+        <!-- Sidebar Links -->
+        <div class="p-6 flex flex-col gap-2 text-gray-300 font-medium overflow-y-auto flex-grow">
+            <!-- Shaxsiy kabinet -->
+            <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                </svg>
+                Shaxsiy kabinet
+            </a>
+
+            <!-- Kitob qo'shish -->
+            <a href="/upload-book" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12"></path>
+                </svg>
+                Kitob qo'shish
+            </a>
+
+            <!-- Sozlamalar -->
+            <a href="/settings" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"></path>
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                </svg>
+                Sozlamalar
+            </a>
+
+            <!-- Yordam -->
+            <a href="/support" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192l-3.536 3.536M21 12a9 9 0 11-18 0 9 9 0 0118 0zm-5 0a4 4 0 11-8 0 4 4 0 018 0z"></path>
+                </svg>
+                Yordam
+            </a>
+
+            <!-- Biz haqimizda -->
+            <a href="/about" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
+                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                </svg>
+                Biz haqimizda
+            </a>
+
+            <!-- Chiqish -->
+            <div class="mt-auto pt-4 border-t border-gray-800">
+                <a href="/logout" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                    </svg>
+                    Chiqish
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function toggleFavorite(button) {
+            const svg = button.querySelector('svg');
+            const isFilled = svg.getAttribute('fill') === '#f59e0b';
+            
+            if (isFilled) {
+                svg.setAttribute('fill', 'none');
+                svg.classList.remove('text-amber-500');
+                svg.classList.add('text-amber-400');
+            } else {
+                svg.setAttribute('fill', '#f59e0b');
+                svg.classList.remove('text-amber-400');
+                svg.classList.add('text-amber-500');
+            }
+        }
+    </script>
+</body>
+</html>
