@@ -23,10 +23,9 @@ public class AuthController {
     // Ro'yxatdan o'tish formasidan ma'lumot kelganda ishlaydigan qism
     @PostMapping("/register")
     public String registerUser(@RequestParam String email, @RequestParam String password) {
-        // Bu yerda kelajakda foydalanuvchini bazaga saqlash kodi yoziladi
         System.out.println("Yangi foydalanuvchi emaili: " + email);
-        
-        // Ro'yxatdan o'tib bo'lgach login sahifasiga yo'naltiramiz
-        return "redirect:/login?success";
+
+        // Ro'yxatdan o'tib bo'lgach, saytning ichki asosiy sahifasiga (home) yo'naltiramiz
+        return "redirect:/home"; 
     }
 }
