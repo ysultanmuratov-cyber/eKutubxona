@@ -9,13 +9,12 @@
 <body class="bg-gray-950 text-white min-h-screen flex flex-col">
 
     <!-- NAVBAR -->
-    <nav class="bg-gray-900 border-b border-gray-800 px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between sticky top-0 z-50 gap-3">
-        
-        <!-- Yuqori qator: Logo va o'ngdagi tugmalar -->
-        <div class="w-full flex items-center justify-between">
+    <nav class="bg-gray-900 border-b border-gray-800 px-4 sm:px-6 py-3 flex items-center justify-between sticky top-0 z-50">
+        <!-- Chap qism: Logo va Havolalar -->
+        <div class="flex items-center gap-6 overflow-hidden">
             <!-- Logo -->
-            <a href="/home" class="flex items-center gap-3">
-                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg shadow-amber-500/10">
+            <a href="/home" class="flex items-center gap-3 shrink-0">
+                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg shadow-amber-500/10">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
@@ -23,31 +22,20 @@
                 <span class="text-xl sm:text-2xl font-black text-amber-400 tracking-wide whitespace-nowrap">E-Kutubxona</span>
             </a>
 
-            <!-- O'ng qism: Foydalanuvchi va Chiqish -->
-            <div class="flex items-center gap-2 sm:gap-3">
-                <div th:if="${currentUser != null}" class="hidden sm:flex items-center gap-2 bg-gray-800/80 border border-gray-700 px-3 py-1.5 rounded-xl text-sm">
-                    <span class="text-gray-300 font-medium" th:text="${currentUser}">Foydalanuvchi</span>
-                </div>
-                <a th:if="${currentUser != null}" href="/logout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
-                    Chiqish
-                </a>
+            <!-- Sahifalar havolasi (Telefonda chapga-o'ngga suriladigan, noutbukda yoyilgan) -->
+            <div class="flex items-center gap-4 sm:gap-6 text-xs sm:text-sm font-medium text-gray-300 overflow-x-auto whitespace-nowrap scrollbar-none py-1">
+                <a href="/home" class="text-amber-400 hover:text-amber-300 transition">Bosh sahifa</a>
+                <a href="/catalog" class="hover:text-amber-300 transition">Katalog</a>
+                <a href="/ebooks" class="hover:text-amber-300 transition">Elektron kitoblar</a>
+                <a href="/audio-books" class="hover:text-amber-300 transition">Audio kitoblar</a>
+                <a href="/favorites" class="hover:text-amber-300 transition">Sevimlilar</a>
             </div>
         </div>
 
-        <!-- Pastki qism (yoki yonma-yon): Barcha sahifalar havolasi (Telefonda suriladigan, noutbukda yoyilgan) -->
-        <div class="w-full flex items-center gap-4 overflow-x-auto text-xs sm:text-sm font-medium text-gray-300 pb-1 md:pb-0 scrollbar-none">
-            <a href="/home" class="text-amber-400 hover:text-amber-300 transition whitespace-nowrap">Bosh sahifa</a>
-            <a href="/catalog" class="hover:text-amber-300 transition whitespace-nowrap">Katalog</a>
-            <a href="/ebooks" class="hover:text-amber-300 transition whitespace-nowrap">Elektron kitoblar</a>
-            <a href="/audio-books" class="hover:text-amber-300 transition whitespace-nowrap">Audio kitoblar</a>
-            <a href="/favorites" class="hover:text-amber-300 transition whitespace-nowrap">Sevimlilar</a>
-        </div>
-    </nav>
-
         <!-- O'ng qism: Foydalanuvchi profili, Chiqish va Burger Tugmasi -->
-        <div class="flex items-center gap-3">
+        <div class="flex items-center gap-2 sm:gap-3 shrink-0">
             <!-- Tizimga kirgan foydalanuvchi profili va ismi -->
-            <div th:if="${currentUser != null}" class="hidden sm:flex items-center gap-2.5 bg-gray-800/80 border border-gray-700 px-3.5 py-2 rounded-xl text-sm">
+            <div th:if="${currentUser != null}" class="hidden sm:flex items-center gap-2.5 bg-gray-800/80 border border-gray-700 px-3 py-1.5 rounded-xl text-sm">
                 <div class="w-6 h-6 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
                     <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
@@ -57,88 +45,84 @@
             </div>
 
             <!-- Chiqish (Logout) tugmasi -->
-            <a th:if="${currentUser != null}" href="/logout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-3.5 py-2 rounded-xl text-sm font-semibold transition">
+            <a th:if="${currentUser != null}" href="/logout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
                 Chiqish
             </a>
 
             <!-- Burger Tugmasi -->
-            <button onclick="toggleSidebar()" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-amber-400 transition" title="Menyu">
-                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <button onclick="toggleSidebar()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-amber-400 transition" title="Menyu">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
                 </svg>
             </button>
         </div>
     </nav>
-
     <!-- MAIN CONTENT -->
     <div class="max-w-7xl mx-auto px-6 py-8 flex-grow w-full">
         
         <!-- SEARCH SECTION -->
         <form action="/home" method="GET" class="mb-10 text-center">
-            <div class="flex items-center justify-center gap-3 mb-2">
-                <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                    </svg>
-                </div>
-                <h1 class="text-2xl md:text-3xl font-extrabold text-amber-400">O'zingizga kerakli kitobni toping</h1>
-            </div>
-            <p class="text-gray-400 max-w-lg mx-auto mb-6 text-xs md:text-sm">O'zbekiston va jahon adabiyotining durdona asarlarini DRM himoyasi ostida xavfsiz o'qing va tinglang.</p>
-            
-            <div class="flex max-w-xl mx-auto bg-gray-900 border border-gray-800 rounded-xl p-1.5 shadow-lg">
-                <input type="text" name="query" th:value="${searchQuery}" placeholder="Kitob nomi, muallif yoki janr..." 
-                       class="w-full bg-transparent px-4 py-2.5 text-white focus:outline-none text-sm">
-                <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold px-6 py-2.5 rounded-lg transition text-sm">Qidirish</button>
-            </div>
-        </form>
-
+    <div class="flex items-center justify-center gap-3 mb-2">
+        <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+            </svg>
+        </div>
+        <h1 class="text-2xl md:text-3xl font-extrabold text-amber-400">O'zingizga kerakli kitobni toping</h1>
+    </div>
+    <p class="text-gray-400 max-w-lg mx-auto mb-6 text-xs md:text-sm">O'zbekiston va jahon adabiyotining durdona asarlarini DRM himoyasi ostida xavfsiz o'qing va tinglang.</p>
+    
+    <div class="flex max-w-xl mx-auto bg-gray-900 border border-gray-800 rounded-xl p-1.5 shadow-lg">
+        <input type="text" name="query" th:value="${searchQuery}" placeholder="Kitob nomi, muallif yoki janr..." 
+               class="w-full bg-transparent px-4 py-2.5 text-white focus:outline-none text-sm">
+        <button type="submit" class="bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold px-6 py-2.5 rounded-lg transition text-sm">Qidirish</button>
+    </div>
+</form>
         <!-- BOOKS GRID SECTION -->
         <h2 class="text-xl font-bold mb-5 border-l-4 border-amber-400 pl-3"
-            th:text="${searchQuery != null and !searchQuery.isEmpty()} ? 'Qidiruv natijalari: ' +${searchQuery} : 'Ommabop kitoblar'">
-            Ommabop kitoblar
-        </h2>
+    th:text="${searchQuery != null and !searchQuery.isEmpty()} ? 'Qidiruv natijalari: ' + ${searchQuery} : 'Ommabop kitoblar'">
+    Ommabop kitoblar
+</h2>
 
-        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-            
-            <!-- MySQL bazasidagi har bir kitob uchun avtomatik kartochka -->
-            <div th:each="book : ${books}" class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg hover:border-amber-400/50 transition group flex flex-col justify-between">
-                <div>
-                    <a th:href="@{/book/{title}(title=${book.title})}" class="block h-60 bg-gray-800 overflow-hidden relative">
-                        <img th:src="${book.imageUrl}" th:alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
-                        <span class="absolute top-3 right-3 bg-amber-500 text-gray-950 text-xs font-bold px-2.5 py-1 rounded-full">DRM Himoyalangan</span>
-                    </a>
-                    <div class="p-5">
-                        <h3 th:text="${book.title}" class="font-bold text-lg mb-1 truncate text-white">O'tkan kunlar</h3>
-                        <p th:text="${book.author}" class="text-sm text-gray-400 mb-2">Abdulla Qodiriy</p>
-                        <span th:text="${book.genre}" class="inline-block text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-md">Janr</span>
-                    </div>
-                </div>
-
-                <div class="p-5 pt-0 flex gap-2">
-                    <a th:href="@{/book/{title}(title=${book.title})}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold py-2.5 rounded-xl text-sm transition text-center shadow-lg shadow-amber-500/10">O'qish</a>
-                    <button onclick="toggleFavorite(this)" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3.5 py-2.5 rounded-xl transition group/btn flex items-center justify-center" title="Sevimlilarga qo'shish">
-                        <svg class="w-5 h-5 text-amber-400 group-hover/btn:scale-110 transition duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                        </svg>
-                    </button>
-                </div>
+<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+    
+    <!-- MySQL bazasidagi har bir kitob uchun avtomatik kartochka -->
+    <div th:each="book : ${books}" class="bg-gray-900 border border-gray-800 rounded-2xl overflow-hidden shadow-lg hover:border-amber-400/50 transition group flex flex-col justify-between">
+        <div>
+            <a th:href="@{/book/{title}(title=${book.title})}" class="block h-60 bg-gray-800 overflow-hidden relative">
+                <img th:src="${book.imageUrl}" th:alt="${book.title}" class="w-full h-full object-cover group-hover:scale-105 transition duration-300">
+                <span class="absolute top-3 right-3 bg-amber-500 text-gray-950 text-xs font-bold px-2.5 py-1 rounded-full">DRM Himoyalangan</span>
+            </a>
+            <div class="p-5">
+                <h3 th:text="${book.title}" class="font-bold text-lg mb-1 truncate text-white">O'tkan kunlar</h3>
+                <p th:text="${book.author}" class="text-sm text-gray-400 mb-2">Abdulla Qodiriy</p>
+                <span th:text="${book.genre}" class="inline-block text-xs text-amber-400/90 bg-amber-500/10 border border-amber-500/20 px-2.5 py-0.5 rounded-md">Janr</span>
             </div>
+        </div>
 
-            <!-- Agar qidiruv bo'yicha hech narsa topilmasa -->
-            <div th:if="${#lists.isEmpty(books)}" class="col-span-full text-center py-12 bg-gray-900/50 border border-gray-800 rounded-2xl">
-                <p class="text-gray-400 text-base mb-3">So'rovingiz bo'yicha kitob topilmadi.</p>
-                <a href="/home" class="inline-block bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold px-5 py-2 rounded-xl text-sm transition">Barcha kitoblarni ko'rish</a>
-            </div>
-
+        <div class="p-5 pt-0 flex gap-2">
+            <a th:href="@{/book/{title}(title=${book.title})}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold py-2.5 rounded-xl text-sm transition text-center shadow-lg shadow-amber-500/10">O'qish</a>
+            <button onclick="toggleFavorite(this)" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 px-3.5 py-2.5 rounded-xl transition group/btn flex items-center justify-center" title="Sevimlilarga qo'shish">
+                <svg class="w-5 h-5 text-amber-400 group-hover/btn:scale-110 transition duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
+                </svg>
+            </button>
         </div>
     </div>
 
+    <!-- Agar qidiruv bo'yicha hech narsa topilmasa -->
+    <div th:if="${#lists.isEmpty(books)}" class="col-span-full text-center py-12 bg-gray-900/50 border border-gray-800 rounded-2xl">
+        <p class="text-gray-400 text-base mb-3">So'rovingiz bo'yicha kitob topilmadi.</p>
+        <a href="/home" class="inline-block bg-amber-500 hover:bg-amber-600 text-gray-950 font-semibold px-5 py-2 rounded-xl text-sm transition">Barcha kitoblarni ko'rish</a>
+    </div>
+
+</div>
     <!-- FOOTER -->
     <footer class="border-t border-gray-800 text-center py-6 text-gray-500 text-sm mt-16">
         © 2026 E-Kutubxona. Barcha huquqlar himoyalangan.
     </footer>
 
-    <!-- SIDEBAR (OCHILADIGAN MENYU - TELEFON UCHUN) -->
+    <!-- SIDEBAR (OCHILADIGAN MENYU) -->
     <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
 
     <div id="sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-800 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
@@ -161,41 +145,6 @@
 
         <!-- Sidebar Links -->
         <div class="p-6 flex flex-col gap-2 text-gray-300 font-medium overflow-y-auto flex-grow">
-            
-            <!-- Asosiy sahifalar havolalari (Telefonda ko'rinishi uchun qo'shildi) -->
-            <a href="/home" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
-                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path>
-                </svg>
-                Bosh sahifa
-            </a>
-            <a href="/catalog" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
-                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 10h16M4 14h16M4 18h16"></path>
-                </svg>
-                Katalog
-            </a>
-            <a href="/ebooks" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
-                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
-                Elektron kitoblar
-            </a>
-            <a href="/audio-books" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
-                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 19V6l12-3v13M9 19c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zm12-3c0 1.105-1.343 2-3 2s-3-.895-3-2 1.343-2 3-2 3 .895 3 2zM9 10l12-3"></path>
-                </svg>
-                Audio kitoblar
-            </a>
-            <a href="/favorites" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
-                <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
-                </svg>
-                Sevimlilar
-            </a>
-
-            <hr class="border-gray-800 my-2">
-
             <!-- Shaxsiy kabinet -->
             <a href="/profile" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 hover:text-amber-400 transition">
                 <svg class="w-5 h-5 text-amber-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
@@ -240,4 +189,46 @@
             <!-- Chiqish (Logout) -->
             <div class="mt-auto pt-4 border-t border-gray-800">
                 <form action="/logout" method="POST">
-                    <button type="submit" class="w-full flex items-center
+                    <button type="submit" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-red-500/10 text-red-400 border border-red-500/20 hover:bg-red-500/20 transition text-left">
+                        <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h4a3 3 0 013 3v1"></path>
+                        </svg>
+                        Chiqish
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
+        }
+
+        function toggleFavorite(button) {
+            const svg = button.querySelector('svg');
+            const isFilled = svg.getAttribute('fill') === '#f59e0b';
+            
+            if (isIDE = isFilled) { // safe fallback
+                svg.setAttribute('fill', 'none');
+                svg.classList.remove('text-amber-500');
+                svg.classList.add('text-amber-400');
+            } else {
+                svg.setAttribute('fill', '#f59e0b');
+                svg.classList.remove('text-amber-400');
+                svg.classList.add('text-amber-500');
+            }
+        }
+    </script>
+</body>
+</html>
