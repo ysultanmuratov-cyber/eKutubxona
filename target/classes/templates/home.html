@@ -9,28 +9,40 @@
 <body class="bg-gray-950 text-white min-h-screen flex flex-col">
 
     <!-- NAVBAR -->
-    <nav class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
-        <!-- Chap qism: Logo va Havolalar yonma-yon -->
-        <div class="flex items-center gap-10">
+    <nav class="bg-gray-900 border-b border-gray-800 px-4 sm:px-6 py-3 flex flex-col md:flex-row items-center justify-between sticky top-0 z-50 gap-3">
+        
+        <!-- Yuqori qator: Logo va o'ngdagi tugmalar -->
+        <div class="w-full flex items-center justify-between">
             <!-- Logo -->
             <a href="/home" class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg shadow-amber-500/10">
+                <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400 shadow-lg shadow-amber-500/10">
                     <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
                     </svg>
                 </div>
-                <span class="text-2xl font-black text-amber-400 tracking-wide whitespace-nowrap">E-Kutubxona</span>
+                <span class="text-xl sm:text-2xl font-black text-amber-400 tracking-wide whitespace-nowrap">E-Kutubxona</span>
             </a>
 
-            <!-- Sahifalar havolasi (Faqat noutbuk va katta ekranlarda ko'rinadi) -->
-            <div class="hidden md:flex items-center gap-6 text-sm font-medium text-gray-300">
-                <a href="/home" class="text-amber-400 hover:text-amber-300 transition">Bosh sahifa</a>
-                <a href="/catalog" class="hover:text-amber-300 transition">Katalog</a>
-                <a href="/ebooks" class="hover:text-amber-300 transition">Elektron kitoblar</a>
-                <a href="/audio-books" class="hover:text-amber-300 transition">Audio kitoblar</a>
-                <a href="/favorites" class="hover:text-amber-300 transition">Sevimlilar</a>
+            <!-- O'ng qism: Foydalanuvchi va Chiqish -->
+            <div class="flex items-center gap-2 sm:gap-3">
+                <div th:if="${currentUser != null}" class="hidden sm:flex items-center gap-2 bg-gray-800/80 border border-gray-700 px-3 py-1.5 rounded-xl text-sm">
+                    <span class="text-gray-300 font-medium" th:text="${currentUser}">Foydalanuvchi</span>
+                </div>
+                <a th:if="${currentUser != null}" href="/logout" class="bg-red-500/10 hover:bg-red-500/20 text-red-400 border border-red-500/30 px-3 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition">
+                    Chiqish
+                </a>
             </div>
         </div>
+
+        <!-- Pastki qism (yoki yonma-yon): Barcha sahifalar havolasi (Telefonda suriladigan, noutbukda yoyilgan) -->
+        <div class="w-full flex items-center gap-4 overflow-x-auto text-xs sm:text-sm font-medium text-gray-300 pb-1 md:pb-0 scrollbar-none">
+            <a href="/home" class="text-amber-400 hover:text-amber-300 transition whitespace-nowrap">Bosh sahifa</a>
+            <a href="/catalog" class="hover:text-amber-300 transition whitespace-nowrap">Katalog</a>
+            <a href="/ebooks" class="hover:text-amber-300 transition whitespace-nowrap">Elektron kitoblar</a>
+            <a href="/audio-books" class="hover:text-amber-300 transition whitespace-nowrap">Audio kitoblar</a>
+            <a href="/favorites" class="hover:text-amber-300 transition whitespace-nowrap">Sevimlilar</a>
+        </div>
+    </nav>
 
         <!-- O'ng qism: Foydalanuvchi profili, Chiqish va Burger Tugmasi -->
         <div class="flex items-center gap-3">
