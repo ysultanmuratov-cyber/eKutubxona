@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Tasdiqlash kodi</title>
+    <style>
+        body { font-family: Arial, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .card { background: white; padding: 30px; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.1); width: 350px; text-align: center; }
+        h2 { color: #333; }
+        p { color: #666; font-size: 14px; }
+        input { width: 100%; padding: 10px; margin: 15px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; text-align: center; font-size: 18px; letter-spacing: 3px; }
+        button { background-color: #4CAF50; color: white; padding: 10px; width: 100%; border: none; border-radius: 5px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #45a049; }
+        .error { color: red; font-size: 13px; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+
+    <div class="card">
+        <h2>Pochtangizni tasdiqlang</h2>
+        <p>Biz kiritgan email manzilingizga 6 xonali kod yubordik:</p>
+        <b th:text="${email}">email@gmail.com</b>
+
+        <form action="/verify" method="POST" style="margin-top: 20px;">
+            <input type="hidden" name="email" th:value="${email}" />
+            <input type="text" name="code" placeholder="123456" maxlength="6" required />
+            
+            <div th:if="${error}" class="error" th:text="${error}"></div>
+
+            <button type="submit">Tasdiqlash</button>
+        </form>
+    </div>
+
+</body>
+</html>

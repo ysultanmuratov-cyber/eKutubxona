@@ -29,13 +29,13 @@
             <a href="/favorites" class="hover:text-amber-300 transition">Sevimlilar</a>
         </div>
         <!-- O'ng tarafdagi uchta chiziqli Burger Tugmasi -->
-<div class="flex items-center ml-auto">
-    <button onclick="toggleSidebar()" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-amber-400 transition" title="Menyu">
-        <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-    </button>
-</div>
+        <div class="flex items-center ml-auto">
+            <button onclick="toggleSidebar()" class="w-10 h-10 rounded-xl bg-gray-800 hover:bg-gray-700 border border-gray-700 flex items-center justify-center text-amber-400 transition" title="Menyu">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+            </button>
+        </div>
     </nav>
 
     <!-- CONTENT -->
@@ -56,16 +56,16 @@
                     <p class="text-gray-400 text-lg mb-6" th:text="'Muallif: ' + ${book.author}">Muallif</p>
                     
                     <h3 class="text-white font-semibold mb-2">Kitob haqida</h3>
-                    <p class="text-gray-300 text-sm leading-relaxed mb-8">
-                        Ushbu asar o'zbek adabiyotining yorqin namunalaridan biri bo'lib, o'quvchini o'ziga rom etadi. Kitob DRM texnologiyasi asosida shifrlangan bo'lib, faqat ushbu platformada xavfsiz mutolaa qilish uchun mo'ljallangan.
+                    <p class="text-gray-300 text-sm leading-relaxed mb-8" th:text="${book.description}">
+                        Kitob mazmuni...
                     </p>
                 </div>
 
-                <!-- Tugmalar (Yangilangan interaktiv dizayn) -->
+                <!-- Tugmalar (Yangilangan: Kitobni o'qish havolaga ulandi) -->
                 <div class="flex flex-wrap gap-4 items-center">
-                    <button class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold py-3.5 px-6 rounded-xl transition text-center shadow-lg shadow-amber-500/20">
+                    <a th:href="@{/read/{title}(title=${book.title})}" class="flex-1 bg-amber-500 hover:bg-amber-600 text-gray-950 font-bold py-3.5 px-6 rounded-xl transition text-center shadow-lg shadow-amber-500/20 block">
                         📖 Kitobni o'qish
-                    </button>
+                    </a>
                     <button onclick="toggleFavorite(this)" class="bg-gray-800 hover:bg-gray-700 border border-gray-700 text-amber-400 font-bold py-3.5 px-6 rounded-xl transition flex items-center justify-center gap-2 group/btn" title="Sevimlilarga qo'shish">
                         <svg class="w-5 h-5 text-amber-400 group-hover/btn:scale-110 transition duration-200" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z"></path>
@@ -99,64 +99,65 @@
             }
         }
     </script>
-<!-- O'NG TOMONDAN SILJIB CHIQADIGAN OYNA (SIDEBAR / DRAWER) -->
-<div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
 
-<div id="sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-800 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
-    <!-- Sidebar Header -->
-    <div class="p-6 border-b border-gray-800 flex items-center justify-between">
-        <div class="flex items-center gap-3">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
-                <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
-                </svg>
+    <!-- O'NG TOMONDAN SILJIB CHIQADIGAN OYNA (SIDEBAR / DRAWER) -->
+    <div id="sidebarOverlay" class="fixed inset-0 bg-black/60 z-50 hidden transition-opacity" onclick="toggleSidebar()"></div>
+
+    <div id="sidebar" class="fixed top-0 right-0 w-80 h-full bg-gray-900 border-l border-gray-800 shadow-2xl z-50 transform translate-x-full transition-transform duration-300 ease-in-out flex flex-col">
+        <!-- Sidebar Header -->
+        <div class="p-6 border-b border-gray-800 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/30 flex items-center justify-center text-amber-400">
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path>
+                    </svg>
+                </div>
+                <span class="text-xl font-bold text-amber-400">Menyu</span>
             </div>
-            <span class="text-xl font-bold text-amber-400">Menyu</span>
+            <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
+                </svg>
+            </button>
         </div>
-        <button onclick="toggleSidebar()" class="text-gray-400 hover:text-white p-2 rounded-lg hover:bg-gray-800 transition">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"></path>
-            </svg>
-        </button>
+
+        <!-- Sidebar Links -->
+        <div class="p-6 flex flex-col gap-4 text-gray-300 font-medium">
+            <a href="/home" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
+                🏠 Bosh sahifa
+            </a>
+            <a href="/catalog" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
+                📚 Katalog
+            </a>
+            <a href="/ebooks" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
+                📖 Elektron kitoblar
+            </a>
+            <a href="/audio-books" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
+                🎧 Audio kitoblar
+            </a>
+            <a href="/favorites" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
+                ❤️ Sevimlilar
+            </a>
+            <a href="/register" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition mt-auto">
+                👤 Ro'yxatdan o'tish
+            </a>
+        </div>
     </div>
 
-    <!-- Sidebar Links -->
-    <div class="p-6 flex flex-col gap-4 text-gray-300 font-medium">
-        <a href="/home" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
-            🏠 Bosh sahifa
-        </a>
-        <a href="/catalog" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
-            📚 Katalog
-        </a>
-        <a href="/ebooks" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
-            📖 Elektron kitoblar
-        </a>
-        <a href="/audio-books" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
-            🎧 Audio kitoblar
-        </a>
-        <a href="/favorites" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition">
-            ❤️ Sevimlilar
-        </a>
-        <a href="/register" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-gray-800 transition mt-auto">
-            👤 Ro'yxatdan o'tish
-        </a>
-    </div>
-</div>
-
-<!-- JavaScript funksiyasi (Agar oldindan bo'lmasa, qo'shib qo'yasiz) -->
-<script>
-    function toggleSidebar() {
-        const sidebar = document.getElementById('sidebar');
-        const overlay = document.getElementById('sidebarOverlay');
-        
-        if (sidebar.classList.contains('translate-x-full')) {
-            sidebar.classList.remove('translate-x-full');
-            overlay.classList.remove('hidden');
-        } else {
-            sidebar.classList.add('translate-x-full');
-            overlay.classList.add('hidden');
+    <!-- JavaScript funksiyasi -->
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+            
+            if (sidebar.classList.contains('translate-x-full')) {
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+            } else {
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.add('hidden');
+            }
         }
-    }
-</script>
+    </script>
 </body>
 </html>

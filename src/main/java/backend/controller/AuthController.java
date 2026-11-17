@@ -1,6 +1,11 @@
 package backend.controller;
 
+import backend.model.User;
+import backend.repository.UserRepository;
+import jakarta.servlet.http.HttpSession;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -8,24 +13,55 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class AuthController {
 
-    // Login sahifasini ochish uchun
-    @GetMapping("/login")
-    public String loginPage() {
-        return "login"; // login.html faylini ochadi
-    }
+    @Autowired
+    private UserRepository userRepository;
 
-    // Ro'yxatdan o'tish sahifasini ochish uchun
     @GetMapping("/register")
-    public String registerPage() {
-        return "register"; // register.html faylini ochadi
+    public String showRegisterPage() {
+        return "register";
     }
 
-    // Ro'yxatdan o'tish formasidan ma'lumot kelganda ishlaydigan qism
     @PostMapping("/register")
-    public String registerUser(@RequestParam String email, @RequestParam String password) {
-        System.out.println("Yangi foydalanuvchi emaili: " + email);
+    public String registerUser(@RequestParam String username,
+                               @RequestParam String password,
+                               HttpSession session,
+                               Model model) {
+        if (userRepository.existsByUsername(username)) {
+            model.addAttribute("error", "Bunday login allaqachon mavjud! Boshqa login kiriting.");
+            return "register";
+        }
 
-        // Ro'yxatdan o'tib bo'lgach, saytning ichki asosiy sahifasiga (home) yo'naltiramiz
-        return "redirect:/home"; 
+        User newUser = new User(username, password);
+        userRepository.save(newUser);
+        session.setAttribute("loggedInUser", newUser.getUsername());
+        return "redirect:/home";
+    }
+
+    @GetMapping("/login")
+    public String showLoginPage() {
+        return "login";
+    }
+
+    @PostMapping("/login")
+    public String loginUser(@RequestParam String username,
+                            @RequestParam String password,
+                            HttpSession session,
+                            Model model) {
+        return userRepository.findByUsername(username)
+                .filter(user -> user.getPassword().equals(password))
+                .map(user -> {
+                    session.setAttribute("loggedInUser", user.getUsername());
+                    return "redirect:/home";
+                })
+                .orElseGet(() -> {
+                    model.addAttribute("error", "Login yoki parol noto'g'ri!");
+                    return "login";
+                });
+    }
+
+    @GetMapping("/logout")
+    public String logout(HttpSession session) {
+        session.invalidate();
+        return "redirect:/login";
     }
 }

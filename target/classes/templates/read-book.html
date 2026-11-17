@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${book.title} + ' - O\'qish'">Kitobni o'qish</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-950 text-gray-100 min-h-screen flex flex-col">
+
+    <!-- Navbar -->
+    <header class="bg-gray-900 border-b border-gray-800 px-6 py-4 flex items-center justify-between sticky top-0 z-50">
+        <a th:href="@{/book/{title}(title=${book.title})}" class="text-amber-400 hover:text-amber-300 font-medium text-sm flex items-center gap-2">
+            &larr; Orqaga qaytish
+        </a>
+        <h1 class="text-lg font-bold text-white truncate max-w-md" th:text="${book.title}">Kitob nomi</h1>
+        <span class="text-xs text-amber-400 bg-amber-500/10 border border-amber-500/30 px-3 py-1 rounded-lg">DRM Himoyalangan</span>
+    </header>
+
+    <!-- Reading Content Area -->
+    <main class="flex-1 max-w-4xl w-full mx-auto p-6 md:p-10 my-6 bg-gray-900 border border-gray-800 rounded-2xl shadow-2xl">
+        <div class="border-b border-gray-800 pb-6 mb-6">
+            <h2 class="text-2xl md:text-3xl font-extrabold text-amber-400 mb-2" th:text="${book.title}">Kitob nomi</h2>
+            <p class="text-gray-400 text-sm">Muallif: <span class="text-white font-medium" th:text="${book.author}">Muallif</span></p>
+        </div>
+
+        <!-- Kitobning to'liq matni va yangi qatorlarni saqlash uchun whitespace-pre-line qo'shildi -->
+        <div class="text-gray-300 leading-relaxed space-y-4 whitespace-pre-line text-base" th:text="${book.content}">
+            Kitob matni bu yerda chiqadi...
+        </div>
+
+        <div class="mt-10 pt-6 border-t border-gray-800">
+            <p class="text-gray-500 text-xs italic text-center">Ushbu kitob DRM himoya tizimi ostida shifrlangan bo'lib, platformamiz orqali xavfsiz mutolaa qilinmoqda.</p>
+        </div>
+    </main>
+
+</body>
+</html>
