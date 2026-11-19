@@ -31,9 +31,14 @@ public class AuthController {
             return "register";
         }
 
-        User newUser = new User(username, password);
+        User newUser = new User();
+        newUser.setUsername(username);
+        newUser.setPassword(password);
+        newUser.setRole("ROLE_USER");
+        
         userRepository.save(newUser);
         session.setAttribute("loggedInUser", newUser.getUsername());
+        session.setAttribute("userRole", newUser.getRole());
         return "redirect:/home";
     }
 
@@ -51,6 +56,14 @@ public class AuthController {
                 .filter(user -> user.getPassword().equals(password))
                 .map(user -> {
                     session.setAttribute("loggedInUser", user.getUsername());
+                    session.setAttribute("userRole", user.getRole());
+
+                    String role = user.getRole();
+
+                    if (role != null && !role.trim().equalsIgnoreCase("ROLE_USER")) {
+                        return "redirect:/admin/dashboard";
+                    }
+
                     return "redirect:/home";
                 })
                 .orElseGet(() -> {

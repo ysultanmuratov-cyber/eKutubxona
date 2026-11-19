@@ -16,11 +16,21 @@ public class User {
     @Column(nullable = false)
     private String password;
 
+    // Yangi qo'shilgan maydon: Foydalanuvchi roli (masalan: "ROLE_SUPER_ADMIN", "ROLE_ADMIN", "ROLE_USER")
+    private String role;
+
     public User() {}
 
     public User(String username, String password) {
         this.username = username;
         this.password = password;
+    }
+
+    // Konstruktor (rol bilan birga yaratish uchun qulay bo'lishi uchun)
+    public User(String username, String password, String role) {
+        this.username = username;
+        this.password = password;
+        this.role = role;
     }
 
     public Long getId() { return id; }
@@ -31,4 +41,7 @@ public class User {
 
     public String getPassword() { return password; }
     public void setPassword(String password) { this.password = password; }
+
+    public String getRole() { return role; }
+    public void setRole(String role) { this.role = role; }
 }

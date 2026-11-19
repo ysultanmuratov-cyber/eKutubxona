@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Content Manager - E-Kutubxona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #334155; padding: 40px; }
+        .container { max-width: 1200px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; }
+        h2 { color: #0f172a; font-size: 24px; font-weight: 700; }
+        p { color: #64748b; font-size: 14px; margin-top: 5px; }
+        .btn-back { background: #64748b; color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-back:hover { background: #475569; }
+
+        /* Yangi kitob qo'shish + Qidiruv va Filtr qatori */
+        .action-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 14px;
+            flex-wrap: wrap;
+            margin-bottom: 24px;
+        }
+        .btn-add {
+            background: #10b981;
+            color: white;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+            white-space: nowrap;
+        }
+        .btn-add:hover { background: #059669; }
+
+        .filter-form {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            flex: 1;
+            justify-content: flex-end;
+            flex-wrap: wrap;
+        }
+        .search-input {
+            min-width: 230px;
+            flex: 1;
+            max-width: 340px;
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #ffffff;
+            color: #0f172a;
+        }
+        .search-input:focus, .category-select:focus {
+            border-color: #2563eb;
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+        .category-select {
+            padding: 10px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+            background: #ffffff;
+            color: #334155;
+            cursor: pointer;
+        }
+        .btn-search {
+            background: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 16px;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        .btn-search:hover { background: #1d4ed8; }
+        .btn-reset {
+            background: #e2e8f0;
+            color: #334155;
+            text-decoration: none;
+            padding: 10px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .btn-reset:hover { background: #cbd5e1; }
+
+        /* Asosiy saytdagiga o'xshash kitoblar gridi */
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+            gap: 20px;
+        }
+        .book-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        .book-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 10px 15px -3px rgba(0,0,0,0.08);
+        }
+        .book-image-container {
+            width: 100%;
+            height: 180px;
+            background: #f1f5f9;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 40px;
+            overflow: hidden;
+        }
+        .book-image-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+        .book-info {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+        .book-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #0f172a;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+        .book-author {
+            font-size: 13px;
+            color: #64748b;
+        }
+        .badges-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 6px;
+            margin-top: 4px;
+        }
+        .book-genre {
+            display: inline-block;
+            background: #f1f5f9;
+            color: #475569;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            width: fit-content;
+        }
+        .book-type-badge {
+            display: inline-block;
+            background: #eff6ff;
+            color: #1d4ed8;
+            font-size: 11px;
+            font-weight: 600;
+            padding: 3px 8px;
+            border-radius: 6px;
+            width: fit-content;
+        }
+
+        /* Pastki tahrirlash tugmasi qismi */
+        .card-footer {
+            padding: 12px 16px;
+            background: #f8fafc;
+            border-top: 1px solid #f1f5f9;
+            display: flex;
+            gap: 8px;
+        }
+        .btn-edit {
+            flex: 1;
+            background: #2563eb;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            transition: background 0.2s;
+        }
+        .btn-edit:hover { background: #1d4ed8; }
+
+        .btn-delete {
+            background: #fee2e2;
+            color: #ef4444;
+            padding: 10px 14px;
+            border-radius: 8px;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+        .btn-delete:hover { background: #fecaca; }
+
+        .empty-state {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+            color: #64748b;
+            background: #f8fafc;
+            border: 1px dashed #cbd5e1;
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <div>
+            <h2>Kitoblar va Kontentni Boshqarish</h2>
+            <p>Content Manager paneli</p>
+        </div>
+        <a href="/admin/dashboard" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Asosiy panel</a>
+    </div>
+
+    <!-- Yangi kitob qo'shish yonida Qidiruv va Kataloglar bo'yicha saralash -->
+    <div class="action-bar">
+        <a href="/admin/books/add" class="btn-add">
+            <i class="fa-solid fa-plus"></i> Yangi Kitob Qo'shish
+        </a>
+
+        <form action="/admin/content" method="get" class="filter-form">
+            <input type="text"
+                   name="keyword"
+                   class="search-input"
+                   th:value="${keyword}"
+                   placeholder="Nomi, muallif yoki janr bo'yicha qidirish...">
+
+            <select name="category" class="category-select">
+                <option value="">Barcha kataloglar</option>
+                <option value="Badiiy adabiyot" th:selected="${selectedCategory == 'Badiiy adabiyot'}">Badiiy adabiyot</option>
+                <option value="Ilmiy adabiyot" th:selected="${selectedCategory == 'Ilmiy adabiyot'}">Ilmiy adabiyot</option>
+                <option value="Darsliklar" th:selected="${selectedCategory == 'Darsliklar'}">Darsliklar</option>
+                <option value="Biznes va ozini rivojlantirish" th:selected="${selectedCategory == 'Biznes va ozini rivojlantirish'}">Biznes va o'zini rivojlantirish</option>
+                <option value="Sarguzasht" th:selected="${selectedCategory == 'Sarguzasht'}">Sarguzasht</option>
+            </select>
+
+            <button type="submit" class="btn-search">
+                <i class="fa-solid fa-search"></i> Qidirish
+            </button>
+
+            <a href="/admin/content"
+               class="btn-reset"
+               th:if="${(keyword != null and !#strings.isEmpty(keyword)) or (selectedCategory != null and !#strings.isEmpty(selectedCategory))}">
+                Tozalash
+            </a>
+        </form>
+    </div>
+
+    <!-- Kitoblar gridi -->
+    <div class="books-grid">
+        <div class="empty-state" th:if="${#lists.isEmpty(books)}">
+            <i class="fa-solid fa-book-open" style="font-size: 32px; margin-bottom: 10px; display: block; color: #94a3b8;"></i>
+            Tanlangan mezonlar bo'yicha kitoblar topilmadi.
+        </div>
+
+        <div class="book-card" th:each="book : ${books}">
+            <div>
+                <!-- Kitob muqovasi (rasm joyi) -->
+                <div class="book-image-container">
+                    <img th:if="${book.imageUrl != null and !#strings.isEmpty(book.imageUrl)}"
+                         th:src="${book.imageUrl}"
+                         th:alt="${book.title}">
+                    <i th:if="${book.imageUrl == null or #strings.isEmpty(book.imageUrl)}"
+                       class="fa-solid fa-book-open"></i>
+                </div>
+
+                <!-- Kitob ma'lumotlari -->
+                <div class="book-info">
+                    <div class="book-title" th:text="${book.title}">Kitob Nomi</div>
+                    <div class="book-author" th:text="${book.author}">Muallif</div>
+                    <div class="badges-row">
+                        <span class="book-genre"
+                              th:text="${book.category != null and !#strings.isEmpty(book.category) ? book.category : (book.genre != null ? book.genre : 'Kataloglanmagan')}">
+                            Badiiy adabiyot
+                        </span>
+                        <span class="book-type-badge"
+                              th:if="${book.bookType != null and !#strings.isEmpty(book.bookType)}"
+                              th:text="${book.bookType}">
+                            Elektron kitob
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Pastdagi Tahrirlash va O'chirish tugmalari -->
+            <div class="card-footer">
+                <a th:href="@{/admin/books/edit/{id}(id=${book.id})}" class="btn-edit">
+                    <i class="fa-solid fa-pen"></i> Tahrirlash
+                </a>
+                <a th:href="@{/admin/books/delete/{id}(id=${book.id})}"
+                   class="btn-delete"
+                   title="O'chirish"
+                   onclick="return confirm('Haqiqatan ham bu kitobni oʻchirmoqchimisiz?');">
+                    <i class="fa-solid fa-trash"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>

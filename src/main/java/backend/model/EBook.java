@@ -14,24 +14,37 @@ public class EBook {
     private String author;
     private String genre;
     private String category;
+    private String bookType; // "Elektron kitob" yoki "Audiokitob"
     private String imageUrl;
 
     @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(columnDefinition = "LONGTEXT")
-    private String content; // Kitobning to'liq matni
+    private String content; // Kitob faylining yo'li yoki matni
 
     // Bo'sh konstruktor
     public EBook() {
     }
 
-    // Parametrli konstruktor
+    // 1. Eskicha 7 ta parametrli konstruktor (boshlang'ich kitoblar uchun)
     public EBook(String title, String author, String genre, String category, String imageUrl, String description, String content) {
         this.title = title;
         this.author = author;
         this.genre = genre;
         this.category = category;
+        this.imageUrl = imageUrl;
+        this.description = description;
+        this.content = content;
+    }
+
+    // 2. Yangi 8 ta parametrli konstruktor (bookType bilan birga)
+    public EBook(String title, String author, String genre, String category, String bookType, String imageUrl, String description, String content) {
+        this.title = title;
+        this.author = author;
+        this.genre = genre;
+        this.category = category;
+        this.bookType = bookType;
         this.imageUrl = imageUrl;
         this.description = description;
         this.content = content;
@@ -52,6 +65,9 @@ public class EBook {
 
     public String getCategory() { return category; }
     public void setCategory(String category) { this.category = category; }
+
+    public String getBookType() { return bookType; }
+    public void setBookType(String bookType) { this.bookType = bookType; }
 
     public String getImageUrl() { return imageUrl; }
     public void setImageUrl(String imageUrl) { this.imageUrl = imageUrl; }

@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Yangi Admin Tayinlash - E-Kutubxona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- FontAwesome professional ikonka kutubxonasi -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            padding: 40px;
+        }
+        .container {
+            max-width: 500px;
+            background: #ffffff;
+            padding: 35px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+            margin: 0 auto;
+        }
+        h2 {
+            color: #0f172a;
+            font-size: 22px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 24px;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label.field-label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            color: #475569;
+        }
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px 14px;
+            border: 1px solid #cbd5e1;
+            border-radius: 8px;
+            font-size: 14px;
+            color: #1e293b;
+            transition: all 0.2s;
+        }
+        input[type="text"]:focus, input[type="password"]:focus {
+            outline: none;
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
+        }
+        
+        /* Telegram uslubidagi zamonaviy Toggle Switch va Ikonkalar */
+        .permissions-container {
+            border: 1px solid #e2e8f0;
+            border-radius: 10px;
+            padding: 6px 16px;
+            background: #f8fafc;
+            margin-top: 5px;
+        }
+        .permission-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        .permission-item:last-child {
+            border-bottom: none;
+        }
+        .permission-info {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .icon-box {
+            width: 36px;
+            height: 36px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 15px;
+        }
+        .icon-content { background: #dbeafe; color: #2563eb; }
+        .icon-user { background: #f3e8ff; color: #9333ea; }
+        .icon-mod { background: #fef3c7; color: #d97706; }
+        .icon-shield { background: #fee2e2; color: #dc2626; }
+
+        .permission-title {
+            font-size: 14px;
+            font-weight: 500;
+            color: #1e293b;
+        }
+
+        .switch {
+            position: relative;
+            display: inline-block;
+            width: 46px;
+            height: 24px;
+        }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider {
+            position: absolute;
+            cursor: pointer;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background-color: #cbd5e1;
+            transition: .3s;
+            border-radius: 24px;
+        }
+        .slider:before {
+            position: absolute;
+            content: "";
+            height: 18px;
+            width: 18px;
+            left: 3px;
+            bottom: 3px;
+            background-color: white;
+            transition: .3s;
+            border-radius: 50%;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        input:checked + .slider { background-color: #10b981; }
+        input:checked + .slider:before { transform: translateX(22px); }
+
+        button {
+            width: 100%;
+            background: #10b981;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: background 0.2s, transform 0.1s;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        }
+        button:hover {
+            background: #059669;
+        }
+        .back-link {
+            display: block;
+            text-align: center;
+            margin-top: 18px;
+            text-decoration: none;
+            color: #64748b;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        .back-link:hover {
+            color: #0f172a;
+        }
+        .error {
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 10px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 20px;
+            font-size: 13px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Admin Tayinlash</h2>
+    
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+
+    <form action="/admin/add-admin" method="post">
+        <div class="form-group">
+            <label class="field-label">Username (Login):</label>
+            <input type="text" name="username" placeholder="Foydalanuvchi nomini kiriting" required>
+        </div>
+
+        <div class="form-group">
+            <label class="field-label">Parol:</label>
+            <input type="password" name="password" placeholder="Maxfiy parolni kiriting" required>
+        </div>
+
+        <div class="form-group">
+            <label class="field-label">Admin Huquqlari (Vazifalari):</label>
+            
+            <div class="permissions-container">
+                <!-- 1. Content Manager -->
+                <div class="permission-item">
+                    <div class="permission-info">
+                        <div class="icon-box icon-content">
+                            <i class="fa-solid fa-file-pen"></i>
+                        </div>
+                        <span class="permission-title">Content Manager</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" name="permissions" value="CONTENT_MANAGER">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- 2. User Manager -->
+                <div class="permission-item">
+                    <div class="permission-info">
+                        <div class="icon-box icon-user">
+                            <i class="fa-solid fa-users-gear"></i>
+                        </div>
+                        <span class="permission-title">User Manager</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" name="permissions" value="USER_MANAGER">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- 3. Moderator -->
+                <div class="permission-item">
+                    <div class="permission-info">
+                        <div class="icon-box icon-mod">
+                            <i class="fa-solid fa-shield-cat"></i>
+                        </div>
+                        <span class="permission-title">Moderator</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" name="permissions" value="MODERATOR">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+
+                <!-- 4. Super Admin -->
+                <div class="permission-item">
+                    <div class="permission-info">
+                        <div class="icon-box icon-shield">
+                            <i class="fa-solid fa-user-shield"></i>
+                        </div>
+                        <span class="permission-title">Super Admin (Barcha huquqlar)</span>
+                    </div>
+                    <label class="switch">
+                        <input type="checkbox" name="permissions" value="ROLE_SUPER_ADMIN">
+                        <span class="slider"></span>
+                    </label>
+                </div>
+            </div>
+        </div>
+
+        <button type="submit">Adminni Saqlash</button>
+    </form>
+
+    <a href="/admin/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Orqaga qaytish</a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Panel - E-Kutubxona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Inter', sans-serif;
+        }
+        body {
+            background-color: #f8fafc;
+            color: #334155;
+            padding: 40px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #ffffff;
+            padding: 30px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05), 0 8px 10px -6px rgba(0, 0, 0, 0.05);
+        }
+        .header-section {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+            border-bottom: 1px solid #f1f5f9;
+            padding-bottom: 20px;
+        }
+        h2 {
+            color: #0f172a;
+            font-size: 24px;
+            font-weight: 700;
+        }
+        p {
+            color: #64748b;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+        .logout-btn {
+            background: #ef4444;
+            color: white;
+            padding: 8px 16px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 500;
+            transition: background 0.2s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .logout-btn:hover {
+            background: #dc2626;
+        }
+
+        /* Yangi admin qo'shish tugmasi (Faqat Super Admin uchun) */
+        .action-buttons {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 24px;
+        }
+        .btn-action {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 18px;
+            text-decoration: none;
+            border-radius: 8px;
+            font-size: 14px;
+            font-weight: 600;
+            transition: all 0.2s;
+            background: #10b981;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(16, 185, 129, 0.2);
+        }
+        .btn-action:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+
+        /* Rol kartochkalari gridi */
+        .roles-info-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        .role-card {
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.01);
+        }
+        .role-card:hover {
+            transform: translateY(-3px);
+            border-color: #3b82f6;
+            box-shadow: 0 10px 15px -3px rgba(59, 130, 246, 0.1);
+            background: #ffffff;
+        }
+        .role-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+        }
+        .card-content-mgr { background: #dbeafe; color: #2563eb; }
+        .card-user-mgr { background: #f3e8ff; color: #9333ea; }
+        .card-mod { background: #fef3c7; color: #d97706; }
+
+        .role-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #1e293b;
+        }
+        .role-desc {
+            font-size: 12px;
+            color: #64748b;
+            margin-top: 2px;
+        }
+
+        h3 {
+            font-size: 18px;
+            color: #1e293b;
+            margin-bottom: 12px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            overflow: hidden;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        th, td {
+            padding: 14px 16px;
+            text-align: left;
+        }
+        th {
+            background-color: #f8fafc;
+            color: #475569;
+            font-weight: 600;
+            font-size: 13px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            border-bottom: 1px solid #e2e8f0;
+        }
+        td {
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            color: #334155;
+        }
+        tr:last-child td {
+            border-bottom: none;
+        }
+        tr:hover {
+            background-color: #f8fafc;
+        }
+        .badge {
+            display: inline-block;
+            padding: 4px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+        .badge-super { background: #fee2e2; color: #991b1b; }
+        .badge-user { background: #e0f2fe; color: #0369a1; }
+        .badge-admin { background: #d1fae5; color: #065f46; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <div>
+            <h2>Xush kelibsiz, <span th:text="${session.loggedInUser}">Admin</span>!</h2>
+            <p>Sizning huquqlaringiz asosida ruxsat etilgan boshqaruv paneli.</p>
+        </div>
+        <a href="/logout" class="logout-btn"><i class="fa-solid fa-right-from-bracket"></i> Chiqish</a>
+    </div>
+
+    <!-- Yangi admin qo'shish tugmasi: FAQAT Super Admin uchun ko'rinadi -->
+    <div class="action-buttons" th:if="${session.userRole == 'ROLE_SUPER_ADMIN'}">
+        <a href="/admin/add-admin" class="btn-action">
+            <i class="fa-solid fa-user-plus"></i> Yangi Admin Qo'shish
+        </a>
+    </div>
+
+    <!-- Rol kartochkalari: Har bir admin o'ziga tegishli vazifani ko'radi -->
+    <div class="roles-info-grid">
+        <!-- Content Manager kartochkasi -->
+        <a href="/admin/content" class="role-card" th:if="${session.userRole == 'ROLE_SUPER_ADMIN' or #strings.contains(session.userRole, 'CONTENT_MANAGER')}">
+            <div class="role-icon card-content-mgr">
+                <i class="fa-solid fa-file-pen"></i>
+            </div>
+            <div>
+                <div class="role-title">Content Manager</div>
+                <div class="role-desc">Kitoblar va kontentni boshqarish</div>
+            </div>
+        </a>
+
+        <!-- User Manager kartochkasi -->
+        <a href="/admin/users" class="role-card" th:if="${session.userRole == 'ROLE_SUPER_ADMIN' or #strings.contains(session.userRole, 'USER_MANAGER')}">
+            <div class="role-icon card-user-mgr">
+                <i class="fa-solid fa-users-gear"></i>
+            </div>
+            <div>
+                <div class="role-title">User Manager</div>
+                <div class="role-desc">Foydalanuvchilarni nazorat qilish</div>
+            </div>
+        </a>
+
+        <!-- Moderator kartochkasi -->
+        <a href="/admin/moderator" class="role-card" th:if="${session.userRole == 'ROLE_SUPER_ADMIN' or #strings.contains(session.userRole, 'MODERATOR')}">
+            <div class="role-icon card-mod">
+                <i class="fa-solid fa-shield-cat"></i>
+            </div>
+            <div>
+                <div class="role-title">Moderator</div>
+                <div class="role-desc">Tizim tartibini kuzatib borish</div>
+            </div>
+        </a>
+    </div>
+
+    <!-- Foydalanuvchilar ro'yxati va Adminlarni boshqarish (Faqat Super Admin uchun) -->
+    <div th:if="${session.userRole == 'ROLE_SUPER_ADMIN'}">
+        <h3>Foydalanuvchilar ro'yxati va Adminlarni boshqarish:</h3>
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Username</th>
+                    <th>Roli / Huquqlari</th>
+                    <th>Amallar</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="u : ${users}">
+                    <td th:text="${u.id}">1</td>
+                    <td th:style="'font-weight: 500;'" th:text="${u.username}">user</td>
+                    <td>
+                        <span th:if="${u.role == 'ROLE_SUPER_ADMIN'}" class="badge badge-super">Super Admin</span>
+                        <span th:if="${u.role == null or u.role == 'ROLE_USER'}" class="badge badge-user">Oddiy foydalanuvchi</span>
+                        <span th:if="${u.role != null and u.role != 'ROLE_SUPER_ADMIN' and u.role != 'ROLE_USER'}" class="badge badge-admin" th:text="${u.role}">Admin</span>
+                    </td>
+                    <td>
+                        <!-- Super Admin o'zini o'zi tahrirlashi yoki o'chirib yuborishining oldini olish -->
+                        <div th:if="${u.username != session.loggedInUser}">
+                            <a th:href="@{/admin/edit-admin/{id}(id=${u.id})}" style="color: #2563eb; text-decoration: none; margin-right: 12px; font-weight: 500;">
+                                <i class="fa-solid fa-pen-to-square"></i> O'zgartirish
+                            </a>
+                            <a th:href="@{/admin/remove-admin/{id}(id=${u.id})}" style="color: #ef4444; text-decoration: none; font-weight: 500;" onclick="return confirm('Haqiqatan ham bu foydalanuvchini adminlikdan mahrum qilmoqchimisiz?');">
+                                <i class="fa-solid fa-user-slash"></i> Olib tashlash
+                            </a>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+</body>
+</html>

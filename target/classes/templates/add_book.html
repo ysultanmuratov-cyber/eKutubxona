@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Yangi Kitob Qo'shish - E-Kutubxona</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #334155; padding: 40px; }
+        .container { max-width: 600px; margin: 0 auto; background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        .header-section { display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px; border-bottom: 1px solid #f1f5f9; padding-bottom: 20px; }
+        h2 { color: #0f172a; font-size: 22px; font-weight: 700; }
+        p { color: #64748b; font-size: 13px; margin-top: 4px; }
+        .form-group { display: flex; flex-direction: column; gap: 6px; margin-bottom: 16px; }
+        label { font-size: 13px; font-weight: 600; color: #475569; }
+        input, select, textarea { padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 14px; outline: none; transition: border-color 0.2s; width: 100%; background: #fff; }
+        input:focus, select:focus, textarea:focus { border-color: #2563eb; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
+        textarea { resize: vertical; height: 90px; }
+        .divider { font-size: 12px; color: #94a3b8; text-align: center; margin: 8px 0; font-weight: 600; }
+        .btn-submit { width: 100%; background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s; margin-top: 10px; display: inline-flex; align-items: center; justify-content: center; gap: 8px; }
+        .btn-submit:hover { background: #059669; }
+        .btn-back { background: #64748b; color: white; padding: 8px 16px; text-decoration: none; border-radius: 8px; font-size: 14px; font-weight: 500; display: inline-flex; align-items: center; gap: 8px; }
+        .btn-back:hover { background: #475569; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header-section">
+        <div>
+            <h2>Yangi Kitob Qo'shish</h2>
+            <p>Kutubxona bazasiga kitob ma'lumotlarini to'liq kiriting</p>
+        </div>
+        <a href="/admin/content" class="btn-back"><i class="fa-solid fa-arrow-left"></i> Orqaga</a>
+    </div>
+
+    <!-- enctype muhim: fayl yuklash uchun -->
+    <form th:action="@{/admin/books/add}" method="post" enctype="multipart/form-data">
+        <div class="form-group">
+            <label>Kitob Nomi</label>
+            <input type="text" name="title" required placeholder="Masalan: O'tkan kunlar">
+        </div>
+        <div class="form-group">
+            <label>Muallifi</label>
+            <input type="text" name="author" required placeholder="Masalan: Abdulla Qodiriy">
+        </div>
+        <div class="form-group">
+            <label>Janri</label>
+            <input type="text" name="genre" placeholder="Masalan: Tarixiy roman">
+        </div>
+        <div class="form-group">
+            <label>Katalog (Kategoriya)</label>
+            <select name="category">
+                <option value="Badiiy adabiyot">Badiiy adabiyot</option>
+                <option value="Ilmiy adabiyot">Ilmiy adabiyot</option>
+                <option value="Darsliklar">Darsliklar</option>
+                <option value="Biznes va o'zini rivojlantirish">Biznes va o'zini rivojlantirish</option>
+                <option value="Sarguzasht">Sarguzasht</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Kitob Muqovasi (Rasm)</label>
+            <input type="file" name="imageFile" accept="image/*">
+            <div class="divider">YOKI INTERNETDAN HAVOLA KIRiting</div>
+            <input type="text" name="imageUrl" placeholder="https://example.com/cover.jpg">
+        </div>
+
+        <div class="form-group">
+            <label>Kitob Fayli (PDF / Elektron matn)</label>
+            <input type="file" name="bookFile" accept=".pdf,.epub,.txt">
+        </div>
+
+        <div class="form-group">
+            <label>Qisqacha tavsif</label>
+            <textarea name="description" placeholder="Kitob haqida qisqacha ma'lumot..."></textarea>
+        </div>
+
+        <button type="submit" class="btn-submit">
+            <i class="fa-solid fa-plus"></i> Kitobni Qo'shish
+        </button>
+    </form>
+</div>
+
+</body>
+</html>

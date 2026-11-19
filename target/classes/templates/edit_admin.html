@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Huquqlarini Tahrirlash</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Inter', sans-serif; }
+        body { background-color: #f8fafc; color: #334155; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .card { background: #ffffff; padding: 30px; border-radius: 16px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 450px; }
+        h2 { font-size: 20px; font-weight: 700; color: #0f172a; margin-bottom: 6px; }
+        p { font-size: 13px; color: #64748b; margin-bottom: 20px; }
+        .permission-group { display: flex; flex-direction: column; gap: 12px; margin-bottom: 24px; }
+        .checkbox-label { display: flex; align-items: center; gap: 10px; font-size: 14px; font-weight: 500; cursor: pointer; }
+        .checkbox-label input { width: 18px; height: 18px; accent-color: #2563eb; cursor: pointer; }
+        .btn-submit { width: 100%; background: #2563eb; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+        .btn-submit:hover { background: #1d4ed8; }
+        .back-link { display: block; text-align: center; margin-top: 15px; font-size: 13px; color: #64748b; text-decoration: none; }
+        .back-link:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h2>Admin Huquqlarini Tahrirlash</h2>
+    <p>Foydalanuvchi: <b th:text="${targetUser.username}"></b></p>
+
+    <form th:action="@{/admin/edit-admin/{id}(id=${targetUser.id})}" method="post">
+        <div class="permission-group">
+            <label class="checkbox-label">
+                <input type="checkbox" name="permissions" value="CONTENT_MANAGER" 
+                       th:checked="${targetUser.role != null and targetUser.role.contains('CONTENT_MANAGER')}">
+                Content Manager (Kitoblar va kontentni boshqarish)
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" name="permissions" value="USER_MANAGER" 
+                       th:checked="${targetUser.role != null and targetUser.role.contains('USER_MANAGER')}">
+                User Manager (Foydalanuvchilarni nazorat qilish)
+            </label>
+            <label class="checkbox-label">
+                <input type="checkbox" name="permissions" value="MODERATOR" 
+                       th:checked="${targetUser.role != null and targetUser.role.contains('MODERATOR')}">
+                Moderator (Tizim tartibini kuzatish)
+            </label>
+        </div>
+
+        <button type="submit" class="btn-submit">Saqlash</button>
+    </form>
+
+    <a href="/admin/dashboard" class="back-link"><i class="fa-solid fa-arrow-left"></i> Orqaga qaytish</a>
+</div>
+
+</body>
+</html>
